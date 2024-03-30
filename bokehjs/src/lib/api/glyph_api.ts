@@ -9,10 +9,47 @@ import type * as nd from "core/util/ndarray"
 import type {Glyph, GlyphRenderer, ColumnarDataSource, CDSView, CoordinateMapping} from "./models"
 
 import {
-  AnnularWedge, Annulus, Arc, Band, Bezier, Block, Circle, Ellipse, HArea, HAreaStep, HBar, HSpan,
-  HStrip, HexTile, Image, ImageRGBA, ImageStack, ImageURL, Line, MultiLine, MultiPolygons,
-  Patch, Patches, Quad, Quadratic, Ray, Rect, Scatter, Segment, Spline, Step, MathMLGlyph,
-  TeXGlyph, Text, VArea, VAreaStep, VBar, VSpan, VStrip, Wedge, Whisker,
+  AnnularWedge,
+  Annulus,
+  Arc,
+  BandGlyph as Band,
+  Bezier,
+  Block,
+  Circle,
+  Ellipse,
+  HArea,
+  HAreaStep,
+  HBar,
+  HSpan,
+  HStrip,
+  HexTile,
+  Image,
+  ImageRGBA,
+  ImageStack,
+  ImageURL,
+  Line,
+  MathMLGlyph as MathML,
+  MultiLine,
+  MultiPolygons,
+  Patch,
+  Patches,
+  Quad,
+  Quadratic,
+  Ray,
+  Rect,
+  Scatter,
+  Segment,
+  Spline,
+  Step,
+  TeXGlyph as TeX,
+  Text,
+  VArea,
+  VAreaStep,
+  VBar,
+  VSpan,
+  VStrip,
+  Wedge,
+  WhiskerGlyph as Whisker,
 } from "../models/glyphs"
 
 import type {Marker} from "../models/glyphs/marker"
@@ -139,7 +176,7 @@ export type ImageStackArgs    = GlyphArgs<ImageStack.Props>
 export type ImageURLArgs      = GlyphArgs<ImageURL.Props>
 export type LineArgs          = GlyphArgs<Line.Props>          & AuxLine
 export type MarkerArgs        = GlyphArgs<Marker.Props>        & AuxLine & AuxFill & AuxHatch
-export type MathMLGlyphArgs   = GlyphArgs<MathMLGlyph.Props>                                   & AuxText
+export type MathMLArgs        = GlyphArgs<MathML.Props>                                       & AuxText
 export type MultiLineArgs     = GlyphArgs<MultiLine.Props>     & AuxLine
 export type MultiPolygonsArgs = GlyphArgs<MultiPolygons.Props> & AuxLine & AuxFill & AuxHatch
 export type PatchArgs         = GlyphArgs<Patch.Props>         & AuxLine & AuxFill & AuxHatch
@@ -152,7 +189,7 @@ export type ScatterArgs       = GlyphArgs<Scatter.Props>       & AuxLine & AuxFi
 export type SegmentArgs       = GlyphArgs<Segment.Props>       & AuxLine
 export type SplineArgs        = GlyphArgs<Spline.Props>        & AuxLine
 export type StepArgs          = GlyphArgs<Step.Props>          & AuxLine
-export type TeXGlyphArgs      = GlyphArgs<TeXGlyph.Props>                                      & AuxText
+export type TeXArgs           = GlyphArgs<TeX.Props>                                           & AuxText
 export type TextArgs          = GlyphArgs<Text.Props>                                          & AuxText
 export type VAreaArgs         = GlyphArgs<VArea.Props>                   & AuxFill & AuxHatch
 export type VAreaStepArgs     = GlyphArgs<VAreaStep.Props>               & AuxFill & AuxHatch
@@ -374,14 +411,14 @@ export abstract class GlyphAPI {
     return this._glyph(Line, ["x", "y"], args)
   }
 
-  mathml(args: Partial<MathMLGlyphArgs>): TypedGlyphRenderer<MathMLGlyph>
+  mathml(args: Partial<MathMLArgs>): TypedGlyphRenderer<MathML>
   mathml(
-    x: MathMLGlyphArgs["x"],
-    y: MathMLGlyphArgs["y"],
-    text: MathMLGlyphArgs["text"],
-    args?: Partial<MathMLGlyphArgs>): TypedGlyphRenderer<MathMLGlyph>
-  mathml(...args: unknown[]): TypedGlyphRenderer<MathMLGlyph> {
-    return this._glyph(MathMLGlyph, ["x", "y", "text"], args)
+    x: MathMLArgs["x"],
+    y: MathMLArgs["y"],
+    text: MathMLArgs["text"],
+    args?: Partial<MathMLArgs>): TypedGlyphRenderer<MathML>
+  mathml(...args: unknown[]): TypedGlyphRenderer<MathML> {
+    return this._glyph(MathML, ["x", "y", "text"], args)
   }
 
   multi_line(args: Partial<MultiLineArgs>): TypedGlyphRenderer<MultiLine>
@@ -495,14 +532,14 @@ export abstract class GlyphAPI {
     return this._glyph(Step, ["x", "y", "mode"], args)
   }
 
-  tex(args: Partial<TeXGlyphArgs>): TypedGlyphRenderer<TeXGlyph>
+  tex(args: Partial<TeXArgs>): TypedGlyphRenderer<TeX>
   tex(
-    x: TeXGlyphArgs["x"],
-    y: TeXGlyphArgs["y"],
-    text: TeXGlyphArgs["text"],
-    args?: Partial<TeXGlyphArgs>): TypedGlyphRenderer<TeXGlyph>
-  tex(...args: unknown[]): TypedGlyphRenderer<TeXGlyph> {
-    return this._glyph(TeXGlyph, ["x", "y", "text"], args)
+    x: TeXArgs["x"],
+    y: TeXArgs["y"],
+    text: TeXArgs["text"],
+    args?: Partial<TeXArgs>): TypedGlyphRenderer<TeX>
+  tex(...args: unknown[]): TypedGlyphRenderer<TeX> {
+    return this._glyph(TeX, ["x", "y", "text"], args)
   }
 
   text(args: Partial<TextArgs>): TypedGlyphRenderer<Text>

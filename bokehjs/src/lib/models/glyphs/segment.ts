@@ -37,10 +37,6 @@ export class SegmentView extends GlyphView {
   }
 
   protected _render(ctx: Context2d, indices: number[], data?: Partial<Segment.Data>): void {
-    if (!this.visuals.line.doit) {
-      return
-    }
-
     const {sx0, sy0, sx1, sy1} = {...this, ...data}
 
     for (const i of indices) {
@@ -53,13 +49,14 @@ export class SegmentView extends GlyphView {
         continue
       }
 
+      if (this.visuals.line.v_doit(i)) {
+        ctx.beginPath()
+        ctx.moveTo(sx0_i, sy0_i)
+        ctx.lineTo(sx1_i, sy1_i)
+        this.visuals.line.apply(ctx, i)
+      }
+
       this._render_decorations(ctx, i, sx0_i, sy0_i, sx1_i, sy1_i)
-
-      ctx.beginPath()
-      ctx.moveTo(sx0_i, sy0_i)
-      ctx.lineTo(sx1_i, sy1_i)
-
-      this.visuals.line.apply(ctx, i)
     }
   }
 

@@ -111,6 +111,7 @@ __all__ = (
     'AnnularWedge',
     'Annulus',
     'Arc',
+    'ArrowGlyph',
     'BandGlyph',
     'Bezier',
     'Block',
@@ -1458,6 +1459,27 @@ class Segment(LineGlyph):
     The {prop} values for the segments.
     """)
 
+def ARROW_DEFAULT_HEAD() -> ArrowHead:
+    from .annotations import OpenHead  # avoid circular imports
+    return OpenHead()
+
+class ArrowGlyph(Segment):
+    ''' Render a segment with start/end arrow head markings.
+
+    '''
+
+    # explicit __init__ to support Init signatures
+    def __init__(self, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+
+    start = Nullable(Instance(".models.annotations.ArrowHead"), default=None, help="""
+    The arrow head at the start of a segment.
+    """)
+
+    end = Nullable(Instance(".models.annotations.ArrowHead"), default=ARROW_DEFAULT_HEAD, help="""
+    The arrow head at the end of a segment.
+    """)
+
 class Step(XYGlyph, LineGlyph):
     ''' Render step lines.
 
@@ -1931,7 +1953,7 @@ class VStrip(LineGlyph, FillGlyph, HatchGlyph):
     The {prop} values for the strips.
     """)
 
-def DEFAULT_HEAD() -> ArrowHead:
+def WHISKER_DEFAULT_HEAD() -> ArrowHead:
     from .annotations import TeeHead  # avoid circular imports
     return TeeHead(size=10)
 
@@ -1963,11 +1985,11 @@ class WhiskerGlyph(LineGlyph):
     The orthogonal coordinates of the upper and lower values.
     """)
 
-    lower_head = Nullable(Instance(".models.annotations.ArrowHead"), default=DEFAULT_HEAD, help="""
+    lower_head = Nullable(Instance(".models.annotations.ArrowHead"), default=WHISKER_DEFAULT_HEAD, help="""
     Instance of ``ArrowHead``.
     """)
 
-    upper_head = Nullable(Instance(".models.annotations.ArrowHead"), default=DEFAULT_HEAD, help="""
+    upper_head = Nullable(Instance(".models.annotations.ArrowHead"), default=WHISKER_DEFAULT_HEAD, help="""
     Instance of ``ArrowHead``.
     """)
 

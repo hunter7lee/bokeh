@@ -38,8 +38,8 @@ export class TileRendererView extends RendererView {
   protected render_timer?: number
   protected prefetch_timer?: number
 
-  override mark_finished(): void {
-    super.mark_finished()
+  override mark_finished(recursive?: boolean): void {
+    super.mark_finished(recursive)
     this._tiles = []
   }
 

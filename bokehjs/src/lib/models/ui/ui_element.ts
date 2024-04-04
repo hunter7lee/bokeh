@@ -232,7 +232,8 @@ export abstract class UIElementView extends DOMComponentView {
 
     // If not displayed, then after_resize() will not be called.
     if (!this.is_displayed) {
-      this.finish()
+      this.mark_finished()
+      this.notify_finished()
     }
   }
 

@@ -46,10 +46,30 @@ export class View implements ISignalable {
 
   public *children(): IterViews {}
 
-  protected _has_finished: boolean
+  protected _has_finished: boolean = false
 
-  mark_finished(): void {
+  mark_finished(recursive: boolean = true): void {
     this._has_finished = true
+
+    if (recursive) {
+      for (const child of this.children()) {
+        child.mark_finished(recursive)
+      }
+    }
+  }
+
+  has_finished(): boolean {
+    if (!this._has_finished) {
+      return false
+    }
+
+    for (const child of this.children()) {
+      if (!child.has_finished()) {
+        return false
+      }
+    }
+
+    return true
   }
 
   /** @internal */
@@ -90,9 +110,7 @@ export class View implements ISignalable {
     }
   }
 
-  initialize(): void {
-    this._has_finished = false
-  }
+  initialize(): void {}
 
   async lazy_initialize(): Promise<void> {}
 
@@ -118,10 +136,6 @@ export class View implements ISignalable {
 
   get is_root(): boolean {
     return this.parent == null
-  }
-
-  has_finished(): boolean {
-    return this._has_finished
   }
 
   get is_idle(): boolean {

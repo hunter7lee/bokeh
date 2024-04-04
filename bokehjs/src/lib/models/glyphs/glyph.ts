@@ -87,6 +87,7 @@ export abstract class GlyphView extends View {
   override initialize(): void {
     super.initialize()
     this.visuals = new visuals.Visuals(this)
+    this._has_finished = true
   }
 
   readonly decorations: ViewStorage<Decoration> = new Map()
@@ -126,10 +127,6 @@ export abstract class GlyphView extends View {
   }
 
   protected abstract _render(ctx: Context2d, indices: number[], data?: Glyph.Data): void
-
-  override has_finished(): boolean {
-    return true
-  }
 
   override notify_finished(): void {
     this.renderer.notify_finished()

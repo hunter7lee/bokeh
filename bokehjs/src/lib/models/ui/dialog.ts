@@ -86,6 +86,10 @@ export class DialogView extends UIElementView {
 
     this._title = await build_view(title, {parent: this})
     this._content = await build_view(content, {parent: this})
+
+    if (!this.model.visible) {
+      this.mark_finished()
+    }
   }
 
   override connect_signals(): void {
@@ -541,6 +545,7 @@ export class DialogView extends UIElementView {
     if (show) {
       if (!this._has_rendered) {
         this.render()
+        this.after_render()
       }
       if (!this.el.isConnected) {
         _stacking_order.push(this)

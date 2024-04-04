@@ -81,20 +81,6 @@ export class PaneView extends UIElementView {
     }
   }
 
-  override has_finished(): boolean {
-    if (!super.has_finished()) {
-      return false
-    }
-
-    for (const element_view of this.element_views) {
-      if (!element_view.has_finished()) {
-        return false
-      }
-    }
-
-    return true
-  }
-
   override serializable_state(): SerializableState {
     const {children, ...state} = super.serializable_state()
     return {

@@ -613,6 +613,10 @@ class WheelZoomTool(Scroll):
     then all ranges provided by the cartesian frame will be used.
     """)
 
+    hit_test = Bool(default=False, help="""
+    Whether ``renderers`` should be restricted to those under cursor location.
+    """)
+
     level = NonNegative(Int, default=0, help="""
     When working with composite scales (sub-coordinates), this property
     allows to configure which set of ranges to scale. The default is to

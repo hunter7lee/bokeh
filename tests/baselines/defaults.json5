@@ -6382,6 +6382,7 @@
     __extends__: "Scroll",
     dimensions: "both",
     renderers: "auto",
+    hit_test: false,
     level: 0,
     maintain_focus: true,
     zoom_on_axis: true,

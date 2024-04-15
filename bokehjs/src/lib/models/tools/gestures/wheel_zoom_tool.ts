@@ -88,7 +88,7 @@ export class WheelZoomToolView extends GestureToolView {
     const x_renderer_scales = new Set<Scale>()
     const y_renderer_scales = new Set<Scale>()
 
-    const {renderers} = this.model
+    const {renderers, hit_test} = this.model
     const data_renderers = renderers != "auto" ? renderers : this.plot_view.model.data_renderers
 
     for (const renderer of data_renderers) {
@@ -98,6 +98,13 @@ export class WheelZoomToolView extends GestureToolView {
 
       const rv = this.plot_view.renderer_view(renderer)
       assert(rv != null)
+
+      if (hit_test) {
+        const did_hit = rv.hit_test({type: "point", sx, sy})
+        if (did_hit == null || did_hit.is_empty()) {
+          continue
+        }
+      }
 
       const {x_scale, y_scale} = rv.coordinates
 
@@ -196,6 +203,7 @@ export namespace WheelZoomTool {
   export type Props = GestureTool.Props & {
     dimensions: p.Property<Dimensions>
     renderers: p.Property<Renderers>
+    hit_test: p.Property<boolean>
     level: p.Property<number>
     maintain_focus: p.Property<boolean>
     zoom_on_axis: p.Property<boolean>
@@ -221,6 +229,7 @@ export class WheelZoomTool extends GestureTool {
     this.define<WheelZoomTool.Props>(({Bool, Float, NonNegative, Int}) => ({
       dimensions:     [ Dimensions, "both" ],
       renderers:      [ Renderers, "auto" ],
+      hit_test:       [ Bool, false ],
       level:          [ NonNegative(Int), 0 ],
       maintain_focus: [ Bool, true ],
       zoom_on_axis:   [ Bool, true ],
